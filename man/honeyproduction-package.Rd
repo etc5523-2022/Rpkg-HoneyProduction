@@ -8,6 +8,13 @@
 \description{
 This package contains two numeric functions that output a summary of total honey production by state, the average value of honey by state. Meanwhile, it also includes a function that presents an overall line graph of honey production by state over time, as well as a function that the output is a bar chart, which shows the price of honey in each state of US, while the selected state is highlighted. The core information of the U.S. honey production data is displayed in multiple directions and angles to help people better understand the data.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://etc5523-2022.github.io/rpkg-yche0537/}
+}
+
+}
 \author{
 \strong{Maintainer}: Yunzhi Chen \email{yche0537@student.monash.edu}
 
