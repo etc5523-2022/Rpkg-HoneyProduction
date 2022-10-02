@@ -1,0 +1,31 @@
+
+#### Data
+
+This data set shows honey production, 
+honey unit price, and other data for each state 
+in the United States from 1998 to 2012.
+The data source is from 
+National Agricultural Statistics Service (NASS), 
+Agricultural Statistics Board, U.S. Department of Agriculture (data link:https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-05-21).
+
+
+#### Purpose
+
+The purpose of the app is to:
+
+1. by selecting different years, interactively show the changing trend of honey production in every state of USA during 1998 to 2012,
+2. show the mean value of honey price per pound of states, and 
+3. visualize the top 6 states with highest value of honey of the data. 
+
+The app uses an interactive component that allows users to self-select a year or state to see the impact of different choices on yield or average unit price. The third graph presents the top six states with the highest yields to the user through a data visualization.
+
+#### Creator
+
+Yunzhi Chen (yche0537@student.monash.edu)
+
+<details>
+<summary>Session information</summary>
+```{r, echo = FALSE}
+sessioninfo::session_info()
+```
+</details>
