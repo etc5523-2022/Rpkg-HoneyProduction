@@ -11,6 +11,9 @@ overall honey production by state, average value by state, as well as a
 trend graph of overall production and a histogram of average honey unit
 price by state, to help people better understand the data.
 
+The package documentation website is
+[here](https://etc5523-2022.github.io/rpkg-yche0537/).
+
 ## Installation
 
 You can install the development version of honeyproduction from
