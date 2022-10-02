@@ -1,0 +1,10 @@
+pandoc: 2.14.2
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  honey-production-package: honey-production-package.html
+last_built: 2022-10-02T02:14Z
+urls:
+  reference: https://etc5523-2022.github.io/rpkg-yche0537/reference
+  article: https://etc5523-2022.github.io/rpkg-yche0537/articles
+
