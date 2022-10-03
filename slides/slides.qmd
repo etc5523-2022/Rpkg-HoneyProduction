@@ -1,0 +1,222 @@
+---
+title: "Honey Production Package"
+subtitle: "Yunzhi Chen"
+author: "yche0537@student.monash.edu"
+format: 
+  revealjs:
+    slide-number: c
+    transition: convex
+    width: 1640
+    height: 1000
+    theme: solarized
+    show-slide-number: all
+editor: visual
+---
+
+## {#overview}
+
+::: {.callout-important }
+
+## Package overview
+
+::: incremental
+
+This package contains following functions:
+
+* The metadata: HoneyProduction.
+
+* A function that can run the shiny application of the data.
+
+* A function that outputs a summary of total honey production by states yearly.
+
+* A numeric function returns the average value of honey by state. 
+
+* It also includes a function that presents an overall line graph of honey production by state over time.
+
+* As well as a function that the output is a bar chart, which shows the price of honey in each state of US, while the selected state is highlighted. 
+
+:::
+
+:::
+
+. . . 
+
+The core information of the U.S. honey production data is displayed in multiple directions and angles to help people better understand the data.
+
+
+## Data
+
+- The honey data comes from National Agricultural Statistics Service (NASS), Agricultural Statistics Board, U.S. Department of Agriculture, collected from the website of the https://github.com/rfordatascience/tidytuesday/tree/master/data/2018/2018-05-21. 
+
+- The data set contains information about honey production, honey unit price, and other data for each state in the United States from 1998 to 2012, which has 626 observations and 7 variables.
+
+. . .
+
+You can view the dataset by simply using below syntax:
+
+```{r}
+#| echo: true
+#| eval: false
+
+honeyproduction::HoneyProduction
+```
+
+## Honey Production Shiny Application
+
+:::: {.columns}
+
+::: {.column width="40%"}
+
+Running shiny app syntax:
+```{r}
+#| echo: true
+#| eval: false
+honeyproduction::run_app()
+```
+
+:::
+
+::: {.column width="60%"}
+
+- Running the shiny app is also a function included in this package.
+
+- The app uses an interactive component that allows users to self-select a year or state to see the impact of different choices on yield or average unit price. It also presents the top six states with the highest yields to the user through a data visualization.
+:::
+
+::::
+
+
+## production_plot() function: Honey production changing trend by year
+
+- `production_plot()` is a function that plots the overview changing trend of honey production for those states in US.
+
+- The output is the line graph of the honey production value for all states, regardless of whether argument has an input or not.
+
+. . .
+
+```{r}
+#| echo: true
+#| eval: true
+#| fig-width: 15
+#| fig-height: 6
+
+honeyproduction::production_plot()
+```
+
+## yearly_production() function: Summary of Total Honey Production of US States(1998-2012)
+
+```{r}
+#| echo: true
+#| eval: false
+
+yearly_production <- function(input_year){
+
+  year <- totalprod <- NULL
+  HoneyProduction <- honeyproduction::HoneyProduction
+
+  yearly_prod <- HoneyProduction %>%
+    arrange(desc(totalprod)) %>%
+    filter(year == input_year) %>%
+    select(totalprod)
+
+  prod_summary <- summary(yearly_prod) %>%
+    tibble()
+
+  return(prod_summary)
+}
+```
+
+. . .
+
+This function returns a dataframe containing summary values (i.e. minimum, Q1, median, Q3, maximum) of the total production for the selected year.
+
+```{r}
+#| echo: true
+#| eval: true
+
+honeyproduction::yearly_production(2000)
+```
+
+
+## ave_value() function: The Average Value of Every State
+
+```{r}
+#| echo: true
+#| eval: false
+
+ave_value <- function(input_state){
+
+  state <- prodvalue <- ave_value_dollar <- NULL
+  HoneyProduction <- honeyproduction::HoneyProduction
+
+  value <- HoneyProduction %>%
+    group_by(state) %>%
+    summarise(ave_value_dollar = mean(prodvalue)) %>%
+    arrange(desc(ave_value_dollar)) %>%
+    filter(state == input_state) %>%
+    tibble()
+
+  return(value)
+}
+```
+
+. . .
+
+This is a function that can calculate the average honey value that created by every state in US. The output will be a tibble of dataset that contained the state name and mean honey value of that state.
+
+```{r}
+#| echo: true
+#| eval: true
+
+honeyproduction::ave_value("AL")
+```
+
+## price_plot() function: Average price plot of honey in every state
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-fold: true
+
+price_plot <- function(state_name) {
+
+  state <- priceperlb <- ave_price <- NULL
+  HoneyProduction <- honeyproduction::HoneyProduction
+
+  price <- HoneyProduction %>%
+    group_by(state) %>%
+    summarise(ave_price = mean(priceperlb))
+
+  p <- price %>%
+    ggplot(aes(
+      x = state,
+      y = ave_price,
+      fill = ifelse(state == state_name, "Chosen State", "Normal")
+    )) +
+    scale_fill_manual(name = "Status", values = c("yellow", "grey50")) +
+    geom_col() +
+    geom_text(aes(label = round(ave_price, digits = 3))) +
+    theme_bw(base_size = 14) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5)) +
+    labs(x = "State", y = "Average Price (dollar/pound)")
+  ggplotly(p)
+}
+
+```
+
+. . .
+
+The `aveprice_plot() function` returns a bar chart showing the average price of honey in each state, with selected states highlighted and others grayed out, meanwhile each state's price data displayed on its own bar.
+
+```{r}
+#| echo: true
+#| eval: true
+#| fig-width: 15
+#| fig-height: 6
+
+honeyproduction::price_plot("AL")
+```
+
+# Thank you! {background-image="honey.jpg"}
+
+
